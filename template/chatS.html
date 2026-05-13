@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+    
+
+    {% include 'cabeceraUsuario.html' %}
+    <div class="container">
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card chat-app">
+                <div id="plist" class="people-list">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <form method="POST" action="{{ url_for('buscar_usuario') }}">
+                                <input type="text" name="correo" placeholder="Correo del usuario" required>
+                                <button type="submit">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <ul class="list-unstyled chat-list mt-2 mb-0">
+                        {% for conversacion in conversaciones %}
+                        <li class="clearfix">
+                            <a href="{{ url_for('ver_conversacion_route', conversacion_id=conversacion.conversacion_id) }}">
+                                <img src="{{ conversacion.otro_usuario.avatar }}" alt="avatar" class="avatar">
+                                <div class="about">
+                                    <div class="name">{{ conversacion.otro_usuario.nombre }}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+                <div class="chat">
+
+                    <div class="chat-history">
+                        <ul class="m-b-0">
+                            {% for mensaje in mensajes_clasificados['mensajes_otros'] %}
+                            <li class="clearfix">
+                                <div class="message-data">
+                                    <span class="message-data-name">{{ mensaje['nombre'] }}</span>
+                                    <span class="message-data-time">{{ mensaje['fecha_envio'] }}</span>
+                                </div>
+                                <div class="message other-message float-left">{{ mensaje['contenido'] }}</div>
+                            </li>
+                            {% endfor %}
+                            
+                            {% for mensaje in mensajes_clasificados['mis_mensajes'] %}
+                            <li class="clearfix">
+                               
+                                <div class="message my-message float-right ">{{ mensaje['contenido'] }}</div>                                    
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="chat-message clearfix">
+                        <form action="{{ url_for('enviar_mensaje') }}" method="post"> 
+                            <div class="input-group mb-0">
+                                <input type="text" class="form-control" name="mensaje" placeholder="Enter text here..."> 
+                                <input type="hidden" name="conversacion_id" value="{{ conversacion_id }}"> 
+                            </div>
+                            <button type="submit" class="input-group-text">Enviar</button> 
+                        </form>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</html>
+
+
