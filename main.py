@@ -1,16 +1,17 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 import pymysql
 from modelo import *
+import os
 
-app = Flask(__name__, template_folder='template')
-app.secret_key = "Holahshjendhbhgbdghxbs"
+app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "devkey")
 
 # Configuración de MySQL
 db_config = {
-    "host": "localhost",
-    "user": "root",
-    "password": "hola1234",
-    "database": "serendipity",
+    "host": os.environ.get("DB_HOST"),
+    "user": os.environ.get("DB_USER"),
+    "password": os.environ.get("DB_PASSWORD"),
+    "database": os.environ.get("DB_NAME"),
     "cursorclass": pymysql.cursors.DictCursor
 }
 
@@ -20,7 +21,9 @@ def get_connection():
 @app.route('/')
 def inicio():
     mysql = get_connection()
-    return ruta_inicio(mysql, session)
+    respuesta = ruta_inicio(mysql, session)
+    mysql.close()
+    return respuesta
 
 @app.route('/registro')
 def registro():
@@ -126,4 +129,4 @@ def ver_conversacion_route(conversacion_id):
 
 
 if __name__ == '__main__':
-   app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+   app.run(host='0.0.0.0', port=5000)
