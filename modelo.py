@@ -1,9 +1,10 @@
 import datetime
 import base64
 from flask import render_template, redirect, url_for
-
-import os
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import os
 
 def imagenesPermitidas(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -568,6 +569,7 @@ def ruta_mostrar_grafica(mysql):
     # Guardamos la gráfica como imagen
     try:
         plt.savefig(os.path.join(static_dir, 'grafica_actividad.png'))
+        plt.close()
         print("Gráfica guardada correctamente.")
     except Exception as e:
         print("Error al guardar la gráfica:", e)
