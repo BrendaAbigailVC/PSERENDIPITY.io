@@ -9,6 +9,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "devkey")
 # Configuración de MySQL
 db_config = {
     "host": os.environ.get("DB_HOST"),
+    "port": int(os.environ.get("DB_PORT")),
     "user": os.environ.get("DB_USER"),
     "password": os.environ.get("DB_PASSWORD"),
     "database": os.environ.get("DB_NAME"),
@@ -16,8 +17,15 @@ db_config = {
 }
 
 def get_connection():
-    return pymysql.connect(**db_config)
-
+    return pymysql.connect(
+        host=os.environ.get("DB_HOST"),
+        port=int(os.environ.get("DB_PORT")),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        database=os.environ.get("DB_NAME"),
+        cursorclass=pymysql.cursors.DictCursor,
+        ssl={"ssl": {}}
+    )
 @app.route('/')
 def inicio():
     mysql = get_connection()
