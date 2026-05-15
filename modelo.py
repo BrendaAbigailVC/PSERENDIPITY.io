@@ -562,7 +562,7 @@ def ruta_mostrar_grafica(mysql):
     plt.title('Conteo de Publicaciones y Comentarios por Usuario')
     plt.legend()
    
-    static_dir = './Proyecto/static'
+    static_dir = './static'
     if not os.path.exists(static_dir):
         os.makedirs(static_dir)
 
