@@ -1,5 +1,7 @@
 # Serendipity
 
+Disponible en: https://serendipityredsocial-io.onrender.com
+
 ## Descripción del Proyecto
 
 **Serendipity** es una plataforma de red social desarrollada con el propósito de brindar a los usuarios una experiencia de comunicación moderna, dinámica e intuitiva. La aplicación está enfocada en facilitar la interacción entre personas con intereses similares, promoviendo la exploración de contenido, la conexión social y la participación dentro de una comunidad digital.
